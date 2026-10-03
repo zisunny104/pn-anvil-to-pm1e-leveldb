@@ -10,7 +10,7 @@ done
 exec 9>reports/conversion.lock
 flock -n 9 || { echo '已有轉換工作執行中。'; exit 1; }
 
-fingerprint=$(find tools scripts runtime/batch -type f \( -name '*.java' -o -name '*.sh' -o -name '*.jar' \) -print0 | sort -z | xargs -0 sha256sum | sha256sum | awk '{print $1}')
+fingerprint=$(find tools scripts runtime/batch -type f \( -name '*.java' -o -name '*.sh' -o -name '*.py' -o -name '*.jar' \) -print0 | sort -z | xargs -0 sha256sum | sha256sum | awk '{print $1}')
 if [[ -f reports/runtime-fingerprint && "$(cat reports/runtime-fingerprint)" != "$fingerprint" ]]; then
     echo 'Runtime or code changed. Use a fresh workspace; existing output was not modified.' >&2
     exit 1
