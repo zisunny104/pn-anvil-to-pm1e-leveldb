@@ -1,0 +1,76 @@
+diff --git a/src/main/java/cn/nukkit/block/BlockAzaleaLeaves.java b/src/main/java/cn/nukkit/block/BlockAzaleaLeaves.java
+index c2c7ccd95..ae88394c3 100644
+--- a/src/main/java/cn/nukkit/block/BlockAzaleaLeaves.java
++++ b/src/main/java/cn/nukkit/block/BlockAzaleaLeaves.java
+@@ -56,7 +56,7 @@ public class BlockAzaleaLeaves extends BlockLeaves {
+     @Override
+     public void setPersistent(boolean persistent) {
+         int value = (persistent ? 1 : 0) << 1;
+-        this.setDamage(this.getDamage() & ~1 | (value & 2));
++        this.setDamage(this.getDamage() & ~2 | (value & 2));
+     }
+ 
+     @Override
+diff --git a/src/main/java/cn/nukkit/block/BlockCherryLeaves.java b/src/main/java/cn/nukkit/block/BlockCherryLeaves.java
+index e7afc5a4a..8a9159700 100644
+--- a/src/main/java/cn/nukkit/block/BlockCherryLeaves.java
++++ b/src/main/java/cn/nukkit/block/BlockCherryLeaves.java
+@@ -56,7 +56,7 @@ public class BlockCherryLeaves extends BlockLeaves {
+     @Override
+     public void setPersistent(boolean persistent) {
+         int value = (persistent ? 1 : 0) << 1;
+-        this.setDamage(this.getDamage() & ~1 | (value & 2));
++        this.setDamage(this.getDamage() & ~2 | (value & 2));
+     }
+ 
+     @Override
+diff --git a/src/main/java/cn/nukkit/block/BlockLeaves.java b/src/main/java/cn/nukkit/block/BlockLeaves.java
+index 240c07b9d..11521df2c 100644
+--- a/src/main/java/cn/nukkit/block/BlockLeaves.java
++++ b/src/main/java/cn/nukkit/block/BlockLeaves.java
+@@ -140,26 +140,26 @@ public class BlockLeaves extends BlockTransparentMeta {
+     }
+ 
+     public boolean isCheckDecay() {
+-        return (this.getDamage() & 0x08) != 0;
++        return (this.getDamage() & 0x04) != 0;
+     }
+ 
+     public void setCheckDecay(boolean checkDecay) {
+         if (checkDecay) {
+-            this.setDamage(this.getDamage() | 0x08);
++            this.setDamage(this.getDamage() | 0x04);
+         } else {
+-            this.setDamage(this.getDamage() & -9);
++            this.setDamage(this.getDamage() & -5);
+         }
+     }
+ 
+     public boolean isPersistent() {
+-        return (this.getDamage() & 0x04) != 0;
++        return (this.getDamage() & 0x08) != 0;
+     }
+ 
+     public void setPersistent(boolean persistent) {
+         if (persistent) {
+-            this.setDamage(this.getDamage() | 0x04);
++            this.setDamage(this.getDamage() | 0x08);
+         } else {
+-            this.setDamage(this.getDamage() & -5);
++            this.setDamage(this.getDamage() & -9);
+         }
+     }
+ 
+diff --git a/src/main/java/cn/nukkit/block/BlockLeavesMangrove.java b/src/main/java/cn/nukkit/block/BlockLeavesMangrove.java
+index 280c4992a..3605282fb 100644
+--- a/src/main/java/cn/nukkit/block/BlockLeavesMangrove.java
++++ b/src/main/java/cn/nukkit/block/BlockLeavesMangrove.java
+@@ -56,7 +56,7 @@ public class BlockLeavesMangrove extends BlockLeaves {
+     @Override
+     public void setPersistent(boolean persistent) {
+         int value = (persistent ? 1 : 0) << 1;
+-        this.setDamage(this.getDamage() & ~1 | (value & 2));
++        this.setDamage(this.getDamage() & ~2 | (value & 2));
+     }
+ 
+     @Override

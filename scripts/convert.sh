@@ -44,7 +44,7 @@ for world in "$@"; do
             CompactExport "$region" "$sourcefile"
         nice -n 10 java -Xmx192m -cp "$targetcp" \
             CompactTarget "$sourcefile" "$targetfile"
-        nice -n 10 java -Xmx192m -cp "$targetcp" \
+        nice -n 10 java -Xmx320m -XX:+UseParallelGC -XX:ParallelGCThreads=1 -cp "$targetcp" \
             PackWorld "$targetfile" "after/$world" "before/$world/level.dat"
 
         python3 - "$sourcefile" "$world" "$name" <<'PY'

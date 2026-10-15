@@ -1,0 +1,4 @@
+# source<TAB>target  (one world per line; lines starting with # are ignored)
+# Only worlds listed here are converted.
+ZhuCheng	chuklok
+HePingZhiDi	sunhoi

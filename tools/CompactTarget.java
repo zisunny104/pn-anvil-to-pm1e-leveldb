@@ -17,6 +17,31 @@ public class CompactTarget {
     static int sourceVersion;
     static long migrated;
 
+    // Serialization equality alone does not verify preservation of gameplay flags.
+    static void validateSemantics(NbtMap source, NbtMap target) throws IOException {
+        String name = source.getString("name");
+        NbtMap before = source.getCompound("states");
+        NbtMap after = target.getCompound("states");
+        if (name.contains("leaves")) {
+            for (String key : new String[]{"persistent_bit", "update_bit"}) {
+                if (!before.containsKey(key) || !after.containsKey(key)
+                        || !before.get(key).equals(after.get(key)))
+                    throw new IOException("Leaf semantic flag changed: " + name + "/" + key);
+            }
+        }
+        if (name.equals("minecraft:ice") || name.equals("minecraft:packed_ice")
+                || name.equals("minecraft:blue_ice") || name.equals("minecraft:frosted_ice")) {
+            if (!name.equals(target.getString("name")))
+                throw new IOException("Ice type changed: " + name + " -> " + target.getString("name"));
+        }
+        for (String key : new String[]{"dead_bit", "upside_down_bit", "top_slot_bit",
+                "upper_block_bit", "open_bit", "door_hinge_bit", "pillar_axis", "liquid_depth"}) {
+            if (before.containsKey(key) && after.containsKey(key)
+                    && !before.get(key).equals(after.get(key)))
+                throw new IOException("Gameplay property changed: " + name + "/" + key);
+        }
+    }
+
     static NbtMap identity(NbtMap state) {
         return NbtMap.builder().putString("name",state.getString("name"))
             .putCompound("states",state.getCompound("states")).build();
@@ -55,6 +80,7 @@ public class CompactTarget {
             targetName.equals("minecraft:info_update") ||
             targetName.equals("minecraft:unknown"))
             throw new IOException("Rejected replacement: " + key);
+        validateSemantics(state, found.getVanillaState());
         cache.put(key,found);
         return found;
     }

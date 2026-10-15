@@ -4,11 +4,13 @@
 
 目前為整理中的實驗版本。Java 轉換階段曾完成兩張實際世界共 753,582 個區塊；新的通用入口仍需在相同核心與小型世界上重新驗證。不能把歷史驗證結果視為所有來源版本的相容性保證。
 
+2026-10-04 已重現PM1E 專案發布的 4511 的樹葉旗標判讀與 setter 問題。寫入讀回通過不代表樹葉不會錯誤腐爛，也不代表玻璃片在客戶端顯示正確。請先看[遊戲行為驗證與修復進度](docs/behavior-validation.md)及[英中對照 PR 草稿](docs/pr/leaf-flags-en-zh.md)，目前不建議直接用舊驗證標記替換正式地圖。
+
 ## 需求
 
 - Linux、Bash、Python 3.8 以上、Git、Maven、JDK 21 (`java` 與 `javac`)。
 - 來源舊核心建置另需 JDK 8，以 `SOURCE_JAVA_HOME` 指定。
-- 執行時從官方下載核心：目標預設 latest；來源固定在已驗證 commit 並編譯。本倉庫不分發核心 JAR。
+- 執行時從各核心專案的發布來源下載核心：目標預設 latest；來源固定在已驗證 commit 並編譯。本倉庫不分發核心 JAR。
 - 首次驗證的來源為 PowerNukkit 1.6.1.0-PN-SNAPSHOT，commit `d2a0848f16efe1e3c53fc411c61af62d12a8c683`；目標為 PM1E build 4511。
 - 現有 shell 入口為 Linux 使用；Windows 可以編輯程式，但原生 Windows 執行流程尚未完成。
 

@@ -10,9 +10,10 @@ sourcecp='tools:runtime/batch/source.jar'
 targetcp='tools:runtime/batch/target.jar:runtime/batch/libs/*'
 javac -proc:none -cp "$sourcecp" tools/CompactExport.java \
     tools/WorldInventory.java tools/SourcePropertyTypes.java tools/SourcePaletteVersion.java
-javac -proc:none -cp "$targetcp" tools/OfflineNbt.java tools/LegacyBiomes.java \
-    tools/RoundTripTarget.java tools/CompactTarget.java tools/PackWorld.java \
+javac -proc:none -cp "$targetcp" tools/SetLevelName.java tools/OfflineNbt.java tools/LegacyBiomes.java \
+    tools/RoundTripTarget.java tools/CompactTarget.java tools/SemanticPolicyTest.java tools/PackWorld.java \
     tools/AuditWorlds.java tools/AuditEntityPositions.java tools/FixEntityPositions.java
 java -Xmx192m -cp "$sourcecp" SourcePropertyTypes
 java -Xmx192m -cp "$sourcecp" SourcePaletteVersion
+java -Xmx128m -cp "$targetcp" SemanticPolicyTest
 echo BUILD_PASS

@@ -10,6 +10,21 @@ import io.netty.buffer.*;
 import org.iq80.leveldb.DB;
 
 public class BatchLoadCheck extends PluginBase {
+    final Set<org.cloudburstmc.nbt.NbtMap> checkedGameplayStates=new HashSet<>();
+
+    void checkLeafSemantics(BlockStateSnapshot state) throws IOException {
+        org.cloudburstmc.nbt.NbtMap tag=state.getVanillaState();
+        if(!tag.getString("name").contains("leaves") || !checkedGameplayStates.add(tag)) return;
+        cn.nukkit.block.Block block=cn.nukkit.block.Block.get(state.getLegacyId(),state.getLegacyData());
+        if(!(block instanceof cn.nukkit.block.BlockLeaves))
+            throw new IOException("CORE_LEAF_SEMANTICS unsupported leaf: "+tag);
+        cn.nukkit.block.BlockLeaves leaf=(cn.nukkit.block.BlockLeaves)block;
+        org.cloudburstmc.nbt.NbtMap flags=tag.getCompound("states");
+        if(!flags.containsKey("persistent_bit") || !flags.containsKey("update_bit")
+                || leaf.isPersistent()!=(flags.getByte("persistent_bit")!=0)
+                || leaf.isCheckDecay()!=(flags.getByte("update_bit")!=0))
+            throw new IOException("CORE_LEAF_SEMANTICS flag mismatch: "+tag);
+    }
     Object sectionAt(Object chunk,int y) throws Exception {
         for(Method method:chunk.getClass().getMethods()) {
             if(!method.getName().equals("getSection") ||
@@ -139,6 +154,7 @@ public class BatchLoadCheck extends PluginBase {
                                 if(layer>=actual.length || actual[layer]==null)
                                     throw new IOException("Missing loaded layer");
                                 for(int index=0;index<4096;index++) {
+                                    checkLeafSemantics(actual[layer].getBlockState(index));
                                     if(!expected.getBlockState(index).getVanillaState()
                                         .equals(actual[layer].getBlockState(index)
                                             .getVanillaState()))

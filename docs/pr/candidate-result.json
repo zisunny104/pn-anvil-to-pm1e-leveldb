@@ -1,0 +1,23 @@
+{
+  "coreSha256": "67cec0084ed161bb558ab2c103dd15b0939a258f39a0ff5cb98e5de896a86acd",
+  "candidateClasses": "isolated compiled PR candidate (not a deployed core)",
+  "leafStates": 40,
+  "leafMismatches": 0,
+  "leafSetterCases": 80,
+  "leafSetterMismatches": 0,
+  "iceBehavior": [
+    "minecraft:ice Before=79 After=8 Correct=true",
+    "minecraft:packed_ice Before=174 After=174 Correct=true",
+    "minecraft:blue_ice Before=266 After=266 Correct=true"
+  ],
+  "sameMaterialAdjacencyCases": 15,
+  "mixedRules": [
+    "MIXED_PANE_RULE clearToColored=false coloredToClear=true",
+    "MIXED_FENCE_RULE woodToNether=true netherToWood=false"
+  ],
+  "persistentReproduction": [
+    "PERSISTENT_LEAF_REPRO Before=18 persistent=true checkDecay=false",
+    "PERSISTENT_LEAF_REPRO After=18"
+  ],
+  "scope": "Synthetic fixture. Does not verify converted original regions, client geometry or disconnects."
+}
